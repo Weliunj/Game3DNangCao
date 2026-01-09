@@ -10,6 +10,9 @@ public class Tank : MonoBehaviour
     [Header("Settings")]
     public float turnTime = 2f;
     public float speedMove = 5f;
+
+    [Header("Atk")]
+    public GameObject laser;
     public float AtkRanger = 5f;
     private bool done = true;
 
