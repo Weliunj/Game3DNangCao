@@ -28,6 +28,7 @@ public class Tank : MonoBehaviour
         {
              StartCoroutine(TankHandle());
         }
+
     }
 
     public void AtkHandle()
@@ -42,6 +43,9 @@ public class Tank : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         yield return StartCoroutine(MoveTank());
+        yield return new WaitForSeconds(1f);
+
+        yield return StartCoroutine(AtkTank());
         yield return new WaitForSeconds(1f);
         done = true;
     }
@@ -75,6 +79,12 @@ public class Tank : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speedMove * Time.deltaTime);
             yield return null;
         }
+    }
+
+    IEnumerator AtkTank()
+    {
+        Debug.Log("Atk");
+        yield return new WaitForSeconds(1f);
     }
     void OnDrawGizmos()
     {
