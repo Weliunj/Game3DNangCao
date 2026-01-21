@@ -1,0 +1,32 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "NewPlayerSettings", menuName = "StarterAssets/PlayerSettings")]
+public class PlayerManager : ScriptableObject
+{
+    [Header("MoveSettings")]
+    [Tooltip("Tốc độ di chuyển đi bộ bình thường (m/s)")]
+    public float MoveSpeed = 4.0f;
+
+    [Tooltip("Tốc độ khi chạy nhanh (m/s)")]
+    public float SprintSpeed = 6.0f;
+
+    [Tooltip("Tốc độ xoay camera của nhân vật")]
+    public float RotationSpeed = 1.0f;
+
+    [Tooltip("Tỷ lệ tăng tốc và giảm tốc (số càng cao nhân vật dừng/đi càng nhanh)")]
+    public float SpeedChangeRate = 10.0f;
+
+
+    [Header("JumpAndGravity")]
+    [Tooltip("Độ cao tối đa khi nhân vật nhảy")]
+    public float JumpHeight = 1.2f;
+
+    [Tooltip("Giá trị trọng lực riêng của nhân vật (Mặc định của Unity là -9.81)")]
+    public float Gravity = -15.0f;
+
+    [Tooltip("Thời gian chờ tối thiểu giữa 2 lần nhảy")]
+    public float JumpTimeout = 0.1f;
+
+    [Tooltip("Thời gian chờ trước khi chuyển sang trạng thái rơi (Hữu ích khi đi xuống cầu thang)")]
+    public float FallTimeout = 0.15f;
+}
