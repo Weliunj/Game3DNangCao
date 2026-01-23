@@ -95,6 +95,10 @@ namespace StarterAssets
             float targetSpeed = _input.sprint ? settings.SprintSpeed : settings.MoveSpeed;
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
+            if (Player_Combat.isAttacking || Player_Combat.isBlock)
+            {
+                targetSpeed *= 0.3f; // Giảm xuống còn 30% tốc độ gốc (Bạn có thể chỉnh số này)
+            }
             // Tính toán tốc độ mượt mà
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
             if (Mathf.Abs(currentHorizontalSpeed - targetSpeed) > 0.1f)
@@ -134,14 +138,23 @@ namespace StarterAssets
         {
             if (_isGrounded)
             {
-				_hasPlayedFallAnim = false;
+                _hasPlayedFallAnim = false;
+                // Tắt animation rơi khi chạm đất
+                animator.SetBool("isFalling", false); 
+                
+                if (_verticalVelocity < 0.0f) 
+                {
+                    _verticalVelocity = -2f;
+                    currAnim = ""; // Reset ở đây để lần sau có thể gọi lại "JumpUp"
+                }
+
                 _fallTimeoutDelta = settings.FallTimeout;
+
                 if (_verticalVelocity < 0.0f) _verticalVelocity = -2f;
 
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
                     _verticalVelocity = Mathf.Sqrt(settings.JumpHeight * -2f * settings.Gravity);
-                    // Có thể giữ Trigger cho Jump vì nhảy thường không dùng Blend Tree
                     if (animator != null) ChangeAnim("JumpUp");
                 }
 
@@ -150,12 +163,15 @@ namespace StarterAssets
             else
             {
                 _jumpTimeoutDelta = settings.JumpTimeout;
+
                 if (_fallTimeoutDelta >= 0.0f) _fallTimeoutDelta -= Time.deltaTime;
-                else if (_verticalVelocity < 0f && !_hasPlayedFallAnim)
+                else
                 {
-                    if (animator != null ) 
-						ChangeAnim("JumpDown");
-						_hasPlayedFallAnim = true;
+                    // Nếu đang rơi xuống (v < 0) thì bật Bool
+                    if (_verticalVelocity < 0f)
+                    {
+                        animator.SetBool("isFalling", true);
+                    }
                 }
                 _input.jump = false;
             }
