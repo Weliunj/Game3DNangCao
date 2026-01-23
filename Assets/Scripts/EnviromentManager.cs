@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnviromentManager : MonoBehaviour
@@ -16,7 +15,7 @@ public class EnviromentManager : MonoBehaviour
     {
         if (skyboxMaterial != null)
         {
-            // Tạo bản sao để không ảnh hưởng file gốc
+            // Tạo bản sao để không ảnh hưởng file gốc trên ổ cứng
             skyboxMaterial = new Material(skyboxMaterial);
             RenderSettings.skybox = skyboxMaterial;
         }
@@ -33,57 +32,50 @@ public class EnviromentManager : MonoBehaviour
 
     private void AutoLoopTime()
     {
-        // Chạy liên tục từ 0 -> 1 rồi reset về 0
         timeValue += Time.deltaTime * dayCycleSpeed;
-        if (timeValue >= 1f) 
-        { 
-            timeValue = 0f; 
-        }
+        if (timeValue >= 1f) timeValue = 0f; 
     }
 
     private void UpdateEnvironment()
     {
-        // 1. Xoay mặt trời 360 độ
+        // 1. Tính toán Alpha dựa trên hàm Sin (Sáng giữa ngày, tối ban đêm)
+        float ambientAlpha = Mathf.Max(0, Mathf.Sin(timeValue * Mathf.PI));
+
+        // 2. XOAY MẶT TRỜI VÀ BẦU TRỜI 360 ĐỘ
+        float rotationDegrees = timeValue * 360f;
+        float skyRotation = (timeValue * 360f) / 2f;
+
         if (sunLight != null)
         {
-            // Nhân timeValue với 360 để quay đủ một vòng tròn
-            // Trục X quay từ 0 -> 360
-            sunLight.transform.rotation = Quaternion.Euler(timeValue * 360f, -90f, 0f);
-
-            // 2. Cường độ mặt trời (Tự động tắt khi mặt trời lặn xuống dưới đất)
-            // Mặt trời sẽ sáng khi góc quay từ 0 đến 180 độ
+            // Xoay mặt trời quanh trục X
+            sunLight.transform.rotation = Quaternion.Euler(rotationDegrees, -90f, 0f);
+            
+            // Cường độ mặt trời: chỉ sáng khi ở trên mặt đất (0 -> 0.5)
             if (timeValue > 0f && timeValue < 0.5f) 
-            {
-                // Bình minh đến hoàng hôn (tăng dần rồi giảm dần)
-                float sunIntensity = Mathf.Sin(timeValue * Mathf.PI); 
-                sunLight.intensity = Mathf.Lerp(0f, 1f, sunIntensity);
-            }
+                sunLight.intensity = Mathf.Lerp(0f, 1f, ambientAlpha);
             else
+                sunLight.intensity = 0f;
+        }
+
+        if (skyboxMaterial != null)
+        {
+            // Xoay Material Skybox đồng bộ với mặt trời
+            // Hầu hết Shader Skybox của Unity sử dụng thuộc tính "_Rotation"
+            if (skyboxMaterial.HasProperty("_Rotation"))
             {
-                sunLight.intensity = 0f; // Ban đêm tắt đèn
+                skyboxMaterial.SetFloat("_Rotation", skyRotation);
             }
         }
 
-        // 3. Cường độ ánh sáng môi trường (Ambient)
-        // Dùng hàm Sin để buổi trưa (0.25) là sáng nhất, ban đêm là tối nhất
-        float ambientAlpha = Mathf.Sin(timeValue * Mathf.PI);
-        // Nếu alpha < 0 (ban đêm) thì lấy 0
-        ambientAlpha = Mathf.Max(0, ambientAlpha);
+        // 3. Ambient Intensity (Lighting Tab)
         RenderSettings.ambientIntensity = Mathf.Lerp(0.25f, 1.5f, ambientAlpha);
 
-        // 4. Độ sáng Skybox (Nếu có)
+        // 4. Chỉnh độ sáng (V - Value) cho Skybox
         if (skyboxMaterial != null)
         {
-            // Tính toán giá trị V: Đêm 0.1 (tối) -> Ngày 0.8 (sáng)
-            // Bạn có thể thay đổi số 10f và 55f cũ bằng khoảng 0.1f đến 0.8f
             float vValue = Mathf.Lerp(0.1f, 0.55f, ambientAlpha);
-
-            // Tạo màu mới từ HSV (Giữ nguyên Hue và Saturation là 0 để có màu xám/trắng)
-            // Nếu muốn Skybox có màu, hãy thay số 0 đầu tiên bằng Hue bạn muốn
             Color finalSkyColor = Color.HSVToRGB(0, 0, vValue);
 
-            // Tên thuộc tính màu trong Shader Skybox thường là "_Tint" hoặc "_SkyColor"
-            // Kiểm tra Shader của bạn để dùng đúng tên
             if (skyboxMaterial.HasProperty("_Tint"))
                 skyboxMaterial.SetColor("_Tint", finalSkyColor);
             else if (skyboxMaterial.HasProperty("_SkyColor"))

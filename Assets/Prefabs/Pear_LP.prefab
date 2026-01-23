@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2704122070153198316}
   - component: {fileID: 4664971607470520343}
   - component: {fileID: 7800529357998328417}
+  - component: {fileID: 7987609635335197123}
   m_Layer: 0
   m_Name: Pear_LP
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.11, y: 0.69, z: 2.99}
-  m_LocalScale: {x: 2.3, y: 2.3, z: 2.3}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -163,3 +164,23 @@ CapsuleCollider:
   m_Height: 0.11420893
   m_Direction: 0
   m_Center: {x: -0.0013696629, y: 0.041625697, z: 0.0018162313}
+--- !u!114 &7987609635335197123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7304354591212949224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
