@@ -31,11 +31,13 @@ namespace StarterAssets
         private float _fallTimeoutDelta;
         private bool _isGrounded;
 
-        // Animation ID để tối ưu hiệu năng (thay vì dùng string mỗi frame)
+        // Animation IDs
         private int _animIDMotionSpeed;
+        private int _animIDGrounded;
+        private int _animIDJump;
+        private int _animIDFreeFall;
+
         private Animator animator;
-		private bool _hasPlayedFallAnim = false;
-        private string currAnim;
 
         private CharacterController _controller;
         private StarterAssetsInputs _input;
@@ -50,8 +52,12 @@ namespace StarterAssets
         private void Awake()
         {
             if (_mainCamera == null) _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            // Gán ID cho tham số Float trong Animator (Giả sử bạn đặt tên tham số là "MotionSpeed")
+            
+            // Gán ID cho các tham số Animator (Bool)
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDGrounded = Animator.StringToHash("isGrounded");
+            _animIDJump = Animator.StringToHash("isJump");
+            _animIDFreeFall = Animator.StringToHash("isFreeFall");
         }
 
         private void Start()
@@ -88,6 +94,9 @@ namespace StarterAssets
         {
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
             _isGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+
+            // Cập nhật trạng thái Grounded cho Animator
+            if (animator != null) animator.SetBool(_animIDGrounded, _isGrounded);
         }
 
         private void Move()
@@ -97,9 +106,9 @@ namespace StarterAssets
 
             if (Player_Combat.isAttacking || Player_Combat.isBlock)
             {
-                targetSpeed *= 0.3f; // Giảm xuống còn 30% tốc độ gốc (Bạn có thể chỉnh số này)
+                targetSpeed *= 0.3f;
             }
-            // Tính toán tốc độ mượt mà
+
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
             if (Mathf.Abs(currentHorizontalSpeed - targetSpeed) > 0.1f)
             {
@@ -107,10 +116,8 @@ namespace StarterAssets
             }
             else _speed = targetSpeed;
 
-            // --- CẬP NHẬT ANIMATION BLEND TREE TẠI ĐÂY ---
             UpdateMovementAnimation();
 
-            // Thực hiện di chuyển
             Vector3 inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
             _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
         }
@@ -119,18 +126,11 @@ namespace StarterAssets
         {
             if (animator == null) return;
 
-            float animValue = 0f; // Mặc định là Idle (0)
-
-            if (_isGrounded)
+            float animValue = 0f;
+            if (_isGrounded && _input.move != Vector2.zero)
             {
-                if (_input.move != Vector2.zero)
-                {
-                    // Nếu đang chạy (sprint) thì đặt là 1, nếu đi bộ thì là 0.5
-                    animValue = _input.sprint ? 1.0f : 0.5f;
-                }
+                animValue = _input.sprint ? 1.0f : 0.5f;
             }
-
-            // Sử dụng SetFloat để cập nhật Blend Tree
             animator.SetFloat(_animIDMotionSpeed, animValue, 0.1f, Time.deltaTime);
         }
 
@@ -138,24 +138,24 @@ namespace StarterAssets
         {
             if (_isGrounded)
             {
-                _hasPlayedFallAnim = false;
-                // Tắt animation rơi khi chạm đất
-                animator.SetBool("isFalling", false); 
-                
-                if (_verticalVelocity < 0.0f) 
+                // Reset trạng thái rơi và nhảy khi chạm đất
+                if (animator != null)
                 {
-                    _verticalVelocity = -2f;
-                    currAnim = ""; // Reset ở đây để lần sau có thể gọi lại "JumpUp"
+                    animator.SetBool(_animIDJump, false);
+                    animator.SetBool(_animIDFreeFall, false);
                 }
 
                 _fallTimeoutDelta = settings.FallTimeout;
 
                 if (_verticalVelocity < 0.0f) _verticalVelocity = -2f;
 
+                // Xử lý nhảy
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
                     _verticalVelocity = Mathf.Sqrt(settings.JumpHeight * -2f * settings.Gravity);
-                    if (animator != null) ChangeAnim("JumpUp");
+                    
+                    // Bật bool nhảy
+                    if (animator != null) animator.SetBool(_animIDJump, true);
                 }
 
                 if (_jumpTimeoutDelta >= 0.0f) _jumpTimeoutDelta -= Time.deltaTime;
@@ -167,26 +167,16 @@ namespace StarterAssets
                 if (_fallTimeoutDelta >= 0.0f) _fallTimeoutDelta -= Time.deltaTime;
                 else
                 {
-                    // Nếu đang rơi xuống (v < 0) thì bật Bool
-                    if (_verticalVelocity < 0f)
-                    {
-                        animator.SetBool("isFalling", true);
-                    }
+                    // Nếu đang rơi xuống (v < 0) sau khi hết thời gian FallTimeout
+                    if (animator != null) animator.SetBool(_animIDFreeFall, true);
                 }
+                
                 _input.jump = false;
             }
 
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += settings.Gravity * Time.deltaTime;
-            }
-        }
-        private void ChangeAnim(string anim)
-        {
-            if(anim != currAnim)
-            {
-                animator.SetTrigger(anim);
-                currAnim = anim;
             }
         }
 

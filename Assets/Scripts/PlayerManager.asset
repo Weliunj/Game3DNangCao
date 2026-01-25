@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerManager
   m_EditorClassIdentifier: 
   MoveSpeed: 5
-  SprintSpeed: 12
+  SprintSpeed: 14
   RotationSpeed: 1
   SpeedChangeRate: 10
-  JumpHeight: 2.6
+  JumpHeight: 1.3
   Gravity: -25
   JumpTimeout: 0.1
   FallTimeout: 0.15
