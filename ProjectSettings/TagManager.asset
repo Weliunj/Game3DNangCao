@@ -9,11 +9,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Not Walkable
   - Water
   - UI
-  - 
-  - Not Walkable
+  - Item
+  - Equip
   - Ground
   - Players
   - PostProcessing

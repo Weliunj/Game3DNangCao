@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7ac4f220fd3184d89a12be0932af64, type: 3}
+  m_Name: Silver Sword
+  m_EditorClassIdentifier: Assembly-CSharp::Equipment
+  prefab: {fileID: 5566243991344566386, guid: eaac4eab8875a9049a47195930058ddd, type: 3}
+  type: 1
+  description: "Thanh ki\u1EBFm th\u1EB3ng b\u1EB1ng s\u1EAFt v\u1EDBi l\u01B0\u1EE1i
+    ki\u1EBFm \u0111\u01B0\u1EE3c m\xE0i s\u1EAFc c\u1EA3 hai c\u1EA1nh."
+  atkbonus: 10
+  defencebonus: 0

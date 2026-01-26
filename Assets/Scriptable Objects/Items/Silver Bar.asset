@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489a1172fe848004b8aefcf56d57b413, type: 3}
+  m_Name: Silver Bar
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultObject
+  prefab: {fileID: 5566243991344566386, guid: dda1b5ea15f668b4a84f4268a35f3ef5, type: 3}
+  type: 2
+  description: "M\u1ED9t th\u1ECFi b\u1EA1c nguy\xEAn ch\u1EA5t \u0111\xE3 \u0111\u01B0\u1EE3c
+    tinh luy\u1EC7n."

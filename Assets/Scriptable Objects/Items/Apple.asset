@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ec1e9c654294f4e8a662894828c9fc, type: 3}
+  m_Name: Apple
+  m_EditorClassIdentifier: Assembly-CSharp::FoodObject
+  Id: 0
+  uiDisplay: {fileID: 0}
+  type: 0
+  description: "M\u1ED9t qu\u1EA3 t\xE1o \u0111\u1ECF m\u1ECDng, ch\u1EE9a nhi\u1EC1u
+    n\u01B0\u1EDBc v\xE0 vitamin."
+  restoreHungerValue: 5
+  staminaRegenBoost: 5
+  duration: 5
