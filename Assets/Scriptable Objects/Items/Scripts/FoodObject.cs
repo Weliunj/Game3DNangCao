@@ -7,7 +7,4 @@ public class FoodObject : ItemObject
     {
         type = ItemType.Food;
     }
-    public int restoreHungerValue;
-    public float staminaRegenBoost;
-    public float duration; 
 }

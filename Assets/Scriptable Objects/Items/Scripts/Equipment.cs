@@ -7,6 +7,4 @@ public class Equipment : ItemObject
     {
         type = ItemType.Equipment;
     }
-    public float atkbonus;
-    public float defencebonus;
 }

@@ -12,9 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7ac4f220fd3184d89a12be0932af64, type: 3}
   m_Name: Stone Sword
   m_EditorClassIdentifier: Assembly-CSharp::Equipment
-  prefab: {fileID: 5566243991344566386, guid: a242955873c7b75439c8a3a216f89c53, type: 3}
+  Id: 5
+  uiDisplay: {fileID: -1331551332, guid: c387ea1fe4b82a049a46b2aadb20b02f, type: 3}
   type: 1
   description: "M\u1ED9t v\u0169 kh\xED th\xF4 s\u01A1 v\u1EDBi l\u01B0\u1EE1i ki\u1EBFm
     \u0111\u01B0\u1EE3c m\xE0i t\u1EEB \u0111\xE1 cu\u1ED9i nguy\xEAn kh\u1ED1i."
-  atkbonus: 5
-  defencebonus: 0
+  buffs:
+  - atribute: 3
+    value: 0
+    min: 3
+    max: 4
+  - atribute: 2
+    value: 0
+    min: 3
+    max: 4

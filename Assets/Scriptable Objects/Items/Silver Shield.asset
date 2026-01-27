@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7ac4f220fd3184d89a12be0932af64, type: 3}
   m_Name: Silver Shield
   m_EditorClassIdentifier: Assembly-CSharp::Equipment
-  prefab: {fileID: 5566243991344566386, guid: eaebdf0530539554d913365840c3978e, type: 3}
+  Id: 3
+  uiDisplay: {fileID: 974448021, guid: c5c54c715fc9976428b3015c2c07e428, type: 3}
   type: 1
   description: "Chi\u1EBFc khi\xEAn tr\xF2n \u0111\u01B0\u1EE3c gh\xE9p t\u1EEB nh\u1EEFng
     thanh b\u1EA1c, gia c\u1ED1 th\xEAm b\u1EB1ng m\u1ED9t v\xF2ng s\u1EAFt m\u1ECFng
     \u1EDF vi\u1EC1n"
-  atkbonus: 0
-  defencebonus: 10
+  buffs:
+  - atribute: 2
+    value: 0
+    min: 3
+    max: 4
+  - atribute: 0
+    value: 0
+    min: 3
+    max: 4

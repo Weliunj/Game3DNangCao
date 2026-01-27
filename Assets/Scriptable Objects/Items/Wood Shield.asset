@@ -12,9 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7ac4f220fd3184d89a12be0932af64, type: 3}
   m_Name: Wood Shield
   m_EditorClassIdentifier: Assembly-CSharp::Equipment
-  prefab: {fileID: 5566243991344566386, guid: 0418d2c7ce696bc429a47e06cd7a46b1, type: 3}
+  Id: 7
+  uiDisplay: {fileID: -362480336, guid: cafa5746164b8fd419af0d75063b4b9d, type: 3}
   type: 1
   description: "M\u1ED9t chi\u1EBFc khi\xEAn tr\xF2n \u0111\u01B0\u1EE3c gh\xE9p
     t\u1EEB nh\u1EEFng t\u1EA5m g\u1ED7 s\u1ED3i ch\u1EAFc ch\u1EAFn,"
-  atkbonus: 0
-  defencebonus: 5
+  buffs:
+  - atribute: 2
+    value: 0
+    min: 3
+    max: 4
+  - atribute: 0
+    value: 0
+    min: 3
+    max: 4
